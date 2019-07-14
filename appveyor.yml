@@ -1,0 +1,11 @@
+image: Visual Studio 2019
+
+build_script:
+  - ps: dotnet publish --configuration Release --output ./artifacts --runtime win10-x64
+
+test: off
+
+artifacts:
+  - path: ./src/artifacts
+    name: Application
+    type: zip
