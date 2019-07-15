@@ -29,6 +29,12 @@ namespace ExportImage
             }
 
             Console.WriteLine("Done!");
+
+            if (settings.PreventTermination)
+            {
+                Console.WriteLine("\nPress any key to continue...");
+                Console.ReadKey();
+            }
         }
 
         private static (string, string) GetExportPaths(string imagePath)

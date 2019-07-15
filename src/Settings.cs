@@ -14,6 +14,11 @@ namespace ExportImage
         /// </summary>
         public int Quality { get; set;  }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the export process should be prevented termination.
+        /// </summary>
+        public bool PreventTermination { get; set; }
+
         public static Settings Load()
         {
             var settings = File.ReadAllText(Path.Combine(ApplicationPath.InstallationDirectory, FileName));
