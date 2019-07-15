@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
 
 namespace ExportImage
 {
@@ -9,6 +10,11 @@ namespace ExportImage
         static void Main(string[] imagePaths)
         {
             Console.WriteLine($"Exporting {imagePaths.Length} images...");
+
+            var encoder = new JpegEncoder
+            {
+                Quality = 95
+            };
 
             for (var index = 0; index < imagePaths.Length; index++)
             {
@@ -29,7 +35,7 @@ namespace ExportImage
                 {
                     Console.WriteLine($"{index + 1}/{imagePaths.Length}\t-> {newImagePath}");
 
-                    image.SaveAsJpeg(writer);
+                    image.SaveAsJpeg(writer, encoder);
                 }
             }
 
