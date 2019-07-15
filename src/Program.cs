@@ -15,14 +15,14 @@ namespace ExportImage
             for (var index = 0; index < imagePaths.Length; index++)
             {
                 var imagePath = imagePaths[index];
-                var (exportDirectoryPath, exportImagePath) = GetExportPaths(imagePath);
+                var (exportDirectoryPath, exportPath) = GetExportPaths(imagePath);
 
                 EnsureDirectoryExists(exportDirectoryPath);
 
                 using (var input = File.OpenRead(imagePath))
-                using (var output = File.Create(exportImagePath))
+                using (var output = File.Create(exportPath))
                 {
-                    Console.WriteLine($"{index + 1}/{imagePaths.Length}\t-> {exportImagePath}");
+                    Console.WriteLine($"{index + 1}/{imagePaths.Length}\t-> {exportPath}");
 
                     encoder.SaveImage(input, output);
                 }
@@ -37,9 +37,9 @@ namespace ExportImage
             var name = Path.GetFileName(imagePath);
 
             var exportDirectoryPath = Path.Combine(directoryPath, "Exported");
-            var exportImagePath = Path.Combine(exportDirectoryPath, name);
+            var exportPath = Path.Combine(exportDirectoryPath, name);
 
-            return (exportDirectoryPath, exportImagePath);
+            return (exportDirectoryPath, exportPath);
         }
 
         private static void EnsureDirectoryExists(string directoryPath)
