@@ -16,7 +16,7 @@ namespace ExportImage
                 var imageName = Path.GetFileName(imagePath);
                 var directoryPath = Path.GetDirectoryName(imagePath);
 
-                var newDirectoryPath = Path.Combine(directoryPath, "temp");
+                var newDirectoryPath = Path.Combine(directoryPath, "Exported");
                 var newImagePath = Path.Combine(newDirectoryPath, imageName);
 
                 if (!Directory.Exists(newDirectoryPath))
@@ -27,11 +27,13 @@ namespace ExportImage
                 using (var image = Image.Load(imagePath))
                 using (var writer = File.Create(newImagePath))
                 {
-                    Console.Write($"({index + 1}/{imagePaths.Length}) {newImagePath}");
+                    Console.WriteLine($"{index + 1}/{imagePaths.Length}\t-> {newImagePath}");
 
                     image.SaveAsJpeg(writer);
                 }
             }
+
+            Console.WriteLine("Done!");
         }
     }
 }
