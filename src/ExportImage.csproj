@@ -7,6 +7,11 @@
 
   <ItemGroup>
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0006" />
+    <PackageReference Include="YamlDotNet" Version="6.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ExportImage.Settings.yml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
