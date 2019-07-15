@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Jpeg;
 
 namespace ExportImage
 {
@@ -11,35 +9,45 @@ namespace ExportImage
         {
             Console.WriteLine($"Exporting {imagePaths.Length} images...");
 
-            var encoder = new JpegEncoder
-            {
-                Quality = 95
-            };
+            var settings = Settings.Load();
+            var encoder = new Encoder(settings.Quality);
 
             for (var index = 0; index < imagePaths.Length; index++)
             {
                 var imagePath = imagePaths[index];
-                var imageName = Path.GetFileName(imagePath);
-                var directoryPath = Path.GetDirectoryName(imagePath);
+                var (exportDirectoryPath, exportImagePath) = GetExportPaths(imagePath);
 
-                var newDirectoryPath = Path.Combine(directoryPath, "Exported");
-                var newImagePath = Path.Combine(newDirectoryPath, imageName);
+                EnsureDirectoryExists(exportDirectoryPath);
 
-                if (!Directory.Exists(newDirectoryPath))
+                using (var input = File.OpenRead(imagePath))
+                using (var output = File.Create(exportImagePath))
                 {
-                    Directory.CreateDirectory(newDirectoryPath);
-                }
+                    Console.WriteLine($"{index + 1}/{imagePaths.Length}\t-> {exportImagePath}");
 
-                using (var image = Image.Load(imagePath))
-                using (var writer = File.Create(newImagePath))
-                {
-                    Console.WriteLine($"{index + 1}/{imagePaths.Length}\t-> {newImagePath}");
-
-                    image.SaveAsJpeg(writer, encoder);
+                    encoder.SaveImage(input, output);
                 }
             }
 
             Console.WriteLine("Done!");
+        }
+
+        private static (string, string) GetExportPaths(string imagePath)
+        {
+            var directoryPath = Path.GetDirectoryName(imagePath);
+            var name = Path.GetFileName(imagePath);
+
+            var exportDirectoryPath = Path.Combine(directoryPath, "Exported");
+            var exportImagePath = Path.Combine(exportDirectoryPath, name);
+
+            return (exportDirectoryPath, exportImagePath);
+        }
+
+        private static void EnsureDirectoryExists(string directoryPath)
+        {
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
         }
     }
 }
