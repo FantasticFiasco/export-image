@@ -16,9 +16,10 @@ namespace ExportImage
             };
         }
 
-        public void SaveImage(Stream input, Stream output)
+        public void SaveImage(string inputPath, string outputPath)
         {
-            using (var image = Image.Load(input))
+            using (var image = Image.Load(inputPath))
+            using (var output = File.Create(outputPath))
             {
                 image.SaveAsJpeg(output, encoder);
             }

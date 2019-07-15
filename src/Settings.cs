@@ -15,6 +15,12 @@ namespace ExportImage
         public int Quality { get; set;  }
 
         /// <summary>
+        /// Gets or sets the relative sub directory where the exported image will be saved. If set
+        /// to an empty string, the original image will be overwritten.
+        /// </summary>
+        public string SubDirectory { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the export process should be prevented termination.
         /// </summary>
         public bool PreventTermination { get; set; }
